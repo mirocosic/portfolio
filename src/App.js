@@ -6,7 +6,8 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React from 'react'
+import {NavigationContainer} from '@react-navigation/native'
 import {
   SafeAreaView,
   StyleSheet,
@@ -14,7 +15,7 @@ import {
   View,
   Text,
   StatusBar,
-} from 'react-native';
+} from 'react-native'
 
 import {
   Header,
@@ -22,17 +23,16 @@ import {
   Colors,
   DebugInstructions,
   ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+} from 'react-native/Libraries/NewAppScreen'
 
 const App: () => React$Node = () => {
   return (
-    <>
+    <NavigationContainer>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-          <Header />
           {global.HermesInternal == null ? null : (
             <View style={styles.engine}>
               <Text style={styles.footer}>Engine: Hermes</Text>
@@ -68,9 +68,9 @@ const App: () => React$Node = () => {
           </View>
         </ScrollView>
       </SafeAreaView>
-    </>
-  );
-};
+    </NavigationContainer>
+  )
+}
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -109,6 +109,6 @@ const styles = StyleSheet.create({
     paddingRight: 12,
     textAlign: 'right',
   },
-});
+})
 
-export default App;
+export default App
