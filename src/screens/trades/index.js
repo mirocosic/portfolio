@@ -1,26 +1,10 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import { connect } from "react-redux"
+import Component from "./component"
 
-import React from "react"
+export default connect(
+  (state) => ({
+    trades: state.trades.entries,
+  }),
 
-import { SafeAreaView, ScrollView, View, Text, StatusBar } from "react-native"
-
-const Screen = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView contentInsetAdjustmentBehavior="automatic">
-          <Text>Trades list</Text>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  )
-}
-
-export default Screen
+  (dispatch) => ({}),
+)(Component)

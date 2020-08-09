@@ -6,6 +6,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux"
 //import { composeWithDevTools } from "redux-devtools-extension"
 
 import common from "./common/reducer"
+import trades from "./trades/reducer"
 // import transactions from "./transactions/reducer"
 // import categories from "./categories/reducer"
 // import accounts from "./accounts/reducer"
@@ -22,6 +23,7 @@ import common from "./common/reducer"
 
 const reducers = combineReducers({
   common,
+  trades,
   //   transactions,
   //   categories,
   //   accounts,
