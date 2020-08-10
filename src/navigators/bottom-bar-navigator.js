@@ -2,8 +2,7 @@ import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { useDarkMode } from "react-native-dark-mode"
 
-import Main from "../screens/main"
-import { Trades } from "../screens"
+import { Dashboard, Trades, Settings } from "../screens"
 import Icon from "../components/icon"
 import palette from "../utils/palette"
 import { font } from "../components/typography"
@@ -14,7 +13,7 @@ const AddRedirector = ({ navigation }) => {
   React.useEffect(() => {
     const unsubscribe = navigation.addListener("tabPress", (e) => {
       e.preventDefault()
-      navigation.navigate("TransactionForm", { clearForm: true })
+      navigation.navigate("TradeForm", { clearForm: true })
     })
 
     return unsubscribe
@@ -43,13 +42,11 @@ export default () => (
     }}>
     <Tab.Screen
       name={__("Dashboard")}
-      component={Main}
+      component={Dashboard}
       options={{
         tabBarIcon: ({ color }) => (
           <Icon
-            style={{
-              backgroundColor: useDarkMode() ? palette.darkGray : "white",
-            }}
+            style={{ backgroundColor: useDarkMode() ? palette.darkGray : "white" }}
             textStyle={{ fontSize: 26, color }}
             type="tasks"
           />
@@ -83,9 +80,7 @@ export default () => (
       options={{
         tabBarIcon: ({ color }) => (
           <Icon
-            style={{
-              backgroundColor: useDarkMode() ? palette.darkGray : "white",
-            }}
+            style={{ backgroundColor: useDarkMode() ? palette.darkGray : "white" }}
             textStyle={{ fontSize: 26, color }}
             type="exchangeAlt"
           />
@@ -94,13 +89,11 @@ export default () => (
     />
     <Tab.Screen
       name={__("Settings")}
-      component={Main}
+      component={Settings}
       options={{
         tabBarIcon: ({ color }) => (
           <Icon
-            style={{
-              backgroundColor: useDarkMode() ? palette.darkGray : "white",
-            }}
+            style={{ backgroundColor: useDarkMode() ? palette.darkGray : "white" }}
             textStyle={{ fontSize: 26, color }}
             type="cog"
           />

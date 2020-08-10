@@ -22,7 +22,7 @@ import styles from "./styles"
 
 const Trades = ({ navigation, trades }) => (
   <Screen>
-    <Header title="Trades" />
+    <Header title="Dashboard" />
     <ScrollView contentInsetAdjustmentBehavior="automatic">
 
       <FlatList
