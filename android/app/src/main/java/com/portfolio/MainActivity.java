@@ -1,4 +1,4 @@
-package com.portfolio;
+package com.mirocosic.portfolio;
 
 import com.facebook.react.ReactActivity;
 

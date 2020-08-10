@@ -1,4 +1,4 @@
-package com.portfolio;
+package com.mirocosic.portfolio;
 
 import android.app.Application;
 import android.content.Context;

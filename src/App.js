@@ -8,6 +8,9 @@
 
 import React from "react"
 import { Provider } from "react-redux"
+import "intl"
+import "intl/locale-data/jsonp/en"
+
 import AppNavigator from "./navigators/app-navigator"
 import { store } from "./store"
 
