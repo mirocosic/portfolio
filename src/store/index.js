@@ -1,19 +1,20 @@
 import { createStore, combineReducers, applyMiddleware } from "redux"
-//import { persistStore, persistReducer } from "redux-persist"
-//import storage from "redux-persist/lib/storage"
-//import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2"
-//import createSagaMiddleware from "redux-saga"
-//import { composeWithDevTools } from "redux-devtools-extension"
+// import { persistStore, persistReducer } from "redux-persist"
+// import storage from "redux-persist/lib/storage"
+// import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2"
+// import createSagaMiddleware from "redux-saga"
+// import { composeWithDevTools } from "redux-devtools-extension"
 
 import common from "./common/reducer"
 import trades from "./trades/reducer"
+import assets from "./assets/reducer"
 // import transactions from "./transactions/reducer"
 // import categories from "./categories/reducer"
 // import accounts from "./accounts/reducer"
 // import labels from "./labels/reducer"
 // import rootSaga from "./sagas"
 
-//const sagaMiddleware = createSagaMiddleware();
+// const sagaMiddleware = createSagaMiddleware();
 
 // const persistConfig = {
 //   key: "root",
@@ -24,19 +25,20 @@ import trades from "./trades/reducer"
 const reducers = combineReducers({
   common,
   trades,
+  assets,
   //   transactions,
   //   categories,
   //   accounts,
   //   labels,
 })
 
-//const pReducer = persistReducer(persistConfig, reducers)
+// const pReducer = persistReducer(persistConfig, reducers)
 
 export const store = createStore(
   reducers,
-  //composeWithDevTools(applyMiddleware(sagaMiddleware)),
+  // composeWithDevTools(applyMiddleware(sagaMiddleware)),
 )
 // export const store = createStore(reducers, composeWithDevTools(applyMiddleware(sagaMiddleware)))
-//export const persistor = persistStore(store)
+// export const persistor = persistStore(store)
 
-//sagaMiddleware.run(rootSaga);
+// sagaMiddleware.run(rootSaga);

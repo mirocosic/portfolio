@@ -2,13 +2,13 @@ import React from "react"
 import { View, Image } from "react-native"
 import FontAwesome, { Icons } from "react-native-fontawesome"
 
-//import money from "../../../assets/icons/money.png"
-//import category from "../../../assets/icons/default.png"
+import money from "../../../assets/icons/money.png"
+import category from "../../../assets/icons/default.png"
 
-// const icons = {
-//   money,
-//   category,
-// }
+const icons = {
+  money,
+  category,
+}
 
 const Icon = ({ type, textStyle, style, icon }) => (
   <View

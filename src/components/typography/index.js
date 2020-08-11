@@ -2,7 +2,7 @@ import React from "react"
 import { Text } from "react-native"
 import { connect } from "react-redux"
 import { useDarkMode } from "react-native-dark-mode"
-//import __ from "../../utils/translations"
+// import __ from "../../utils/translations"
 
 import styles from "./styles"
 
