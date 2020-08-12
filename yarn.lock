@@ -5924,10 +5924,9 @@ react-native-dark-mode@^0.2.2:
     events "^3.0.0"
     toolkit.ts "^0.0.2"
 
-react-native-fontawesome@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-fontawesome/-/react-native-fontawesome-7.0.0.tgz#9050d50e03c5264c071292b885ab189f29accfad"
-  integrity sha512-UBZXyTLO8rK2NMf7Eomzb70b6cpL5JlBI4xwJGnRroRofrIXUxPelmm0Ojs6OcMs4ucAyPidCOxbJDJlmb2vdA==
+react-native-fontawesome@mirocosic/react-native-fontawesome:
+  version "5.7.0"
+  resolved "https://codeload.github.com/mirocosic/react-native-fontawesome/tar.gz/90416e7d98cad54d5babcadcf42712dd287208d3"
 
 react-native-gesture-handler@^1.7.0:
   version "1.7.0"
