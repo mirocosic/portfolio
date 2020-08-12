@@ -7,37 +7,28 @@
  */
 
 import React from "react"
-
-import {
-  SafeAreaView,
-  ScrollView,
-  FlatList,
-  Text,
-  StatusBar,
-} from "react-native"
-
-import { Screen, Header, Trade } from "../../components"
-
+import { TouchableOpacity, ScrollView, View } from "react-native"
+import { Screen, Header, Copy, Icon } from "../../components"
 import styles from "./styles"
 
-const Trades = ({ navigation, trades }) => (
+const Trades = ({ navigation }) => (
   <Screen>
     <Header title="Settings" />
     <ScrollView contentInsetAdjustmentBehavior="automatic">
 
-      <FlatList
-        data={trades}
-        initialNumToRender={20}
-        renderItem={({ item }) => (
-          <Trade
-            key={item.id}
-            trade={item}
-            toggleScroll={(val) => this.setState({ scrollEnabled: val })}
-            navigation={navigation}
-          />
-        )}
-        keyExtractor={(item) => item.id}
-      />
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Assets")}
+        style={styles.settingWrap}>
+        <View>
+          <Copy>Assets</Copy>
+          <Copy style={{ fontSize: 12, color: "gray", marginTop: 5 }}>
+            Customize your asset groups to live track your trades
+          </Copy>
+        </View>
+
+        <Icon type="chevronRight" style={{ backgroundColor: "transparent" }} textStyle={{ color: "gray" }} />
+      </TouchableOpacity>
+
     </ScrollView>
   </Screen>
 )

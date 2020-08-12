@@ -148,14 +148,14 @@ class TradeForm extends Component {
               {this.renderAssets()}
               <TouchableOpacity
                 style={{ position: "absolute", right: 10 }}
-                onPress={() => this.catModal.current.close()}>
+                onPress={() => this.assetModal.current.close()}>
                 <Icon type="times" textStyle={{ color: "teal" }} />
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.inline, { justifyContent: "flex-start", paddingLeft: 5 }]}
                 onPress={() => navigation.navigate("CategoryEdit", {})}>
                 <Icon type="plus" textStyle={{ color: "teal" }} />
-                <Copy style={{ fontSize: 14 }}>Add new category</Copy>
+                <Copy style={{ fontSize: 14 }}>Add new asset</Copy>
               </TouchableOpacity>
             </ScrollView>
           </Modalize>
