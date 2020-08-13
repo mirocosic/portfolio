@@ -6,7 +6,6 @@ export function formatCurrency(input = 0, currency = "HRK", digits = 2) {
     USD: "en-US",
   }
 
-
   const formatter = new Intl.NumberFormat(formats[currency], {
     style: "currency",
     currency,
@@ -14,7 +13,7 @@ export function formatCurrency(input = 0, currency = "HRK", digits = 2) {
     currencyDisplay: "symbol",
   });
 
-  return formatter.format(input); /* $2,500.00 */
+  return formatter.format(input / 100); /* $2,500.00 */
 
 }
 

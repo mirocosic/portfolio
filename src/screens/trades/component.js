@@ -9,18 +9,13 @@
 import React from "react"
 
 import {
-  SafeAreaView,
   ScrollView,
   FlatList,
-  Text,
-  StatusBar,
 } from "react-native"
 
 import { Screen, Header, Trade } from "../../components"
 
-import styles from "./styles"
-
-const Trades = ({ navigation, trades }) => (
+const Trades = ({ navigation, trades, assets }) => (
   <Screen>
     <Header title="Trades" />
     <ScrollView contentInsetAdjustmentBehavior="automatic">
@@ -32,7 +27,7 @@ const Trades = ({ navigation, trades }) => (
           <Trade
             key={item.id}
             trade={item}
-            toggleScroll={(val) => this.setState({ scrollEnabled: val })}
+            asset={assets.find((a) => a.id === item.assetId)}
             navigation={navigation}
           />
         )}

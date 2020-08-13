@@ -153,7 +153,7 @@ class TradeForm extends Component {
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.inline, { justifyContent: "flex-start", paddingLeft: 5 }]}
-                onPress={() => navigation.navigate("CategoryEdit", {})}>
+                onPress={() => navigation.navigate("AssetEdit", {})}>
                 <Icon type="plus" textStyle={{ color: "teal" }} />
                 <Copy style={{ fontSize: 14 }}>Add new asset</Copy>
               </TouchableOpacity>

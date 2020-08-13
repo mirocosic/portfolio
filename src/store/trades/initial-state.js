@@ -3,18 +3,19 @@ export default {
     {
       id: 1,
       name: "Pero",
-      asset: "BTC",
-      amount: 10000,
+      assetId: 1,
+      amount: 1,
       price: 990000,
       status: "open",
     },
     {
       id: 2,
       name: "mirko",
-      asset: "ETH",
-      amount: 10000,
+      assetId: 2,
+      amount: 2,
       price: 30000,
       status: "closed",
+      note: "long term trade",
     },
   ],
 }

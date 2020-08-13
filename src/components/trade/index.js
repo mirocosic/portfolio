@@ -1,26 +1,38 @@
-import React from "react"
-import { View, Text } from "react-native"
+import React, { Component } from "react"
+import { View } from "react-native"
+import { DarkModeContext } from "react-native-dark-mode"
 
+import { Copy } from "../typography"
 import { formatCurrency } from "../../utils/currency"
 
 import styles from "./styles"
 
-const Trade = ({ trade }) => {
-  return (
-    <View style={[styles.container, styles.inlineBetween]}>
-      <View>
-        <Text>{trade.name}</Text>
-        <Text>{trade.asset}</Text>
-        <Text>{formatCurrency(trade.price)}</Text>
-        <Text>{trade.amount}</Text>
-      </View>
+class Trade extends Component {
 
-      <View>
-        <Text>+ 25,14 %</Text>
-        <Text>+ 2.17 EUR</Text>
+  static contextType = DarkModeContext
+
+  render() {
+    const { name } = this.props.asset
+    const { trade } = this.props
+    const darkMode = this.context === "dark"
+
+    return (
+      <View style={[styles.container, styles.inlineBetween, darkMode && styles.containerDark]}>
+        <View>
+          <Copy>{name}</Copy>
+          <Copy>Price: {formatCurrency(trade.price)}</Copy>
+          <Copy>Amount: {trade.amount}</Copy>
+          { trade.note && <Copy>Note: { trade.note }</Copy> }
+        </View>
+
+        <View>
+          <Copy>+ 25,14 %</Copy>
+          <Copy>+ 2.17 EUR</Copy>
+        </View>
       </View>
-    </View>
-  )
+    )
+  }
+
 }
 
 export default Trade
