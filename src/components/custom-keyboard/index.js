@@ -1,117 +1,101 @@
-import React, { Component } from "react"
-import { View, Text, TouchableOpacity } from "react-native"
-import { DarkModeContext } from "react-native-dark-mode"
+import React, { useState } from "react"
+import { View, Text, TouchableOpacity, useColorScheme } from "react-native"
 
 import palette from "../../utils/palette"
 import Digit from "../digit"
 import styles from "./styles"
 
-export default class CustomKeyboard extends Component {
+export default ({ handlePress, setAmount, handleSubmit, del }) => {
+  const darkMode = useColorScheme() === "dark"
+  const [calculationMode, setCalculationMode] = useState(false)
+  const [input, setInput] = useState("")
 
-  static contextType = DarkModeContext
+  const handleDigitPress = (digit) => {
 
-  state = {
-    calculationMode: false,
-    input: "",
-  }
-
-  handlePress = (digit) => {
-    const { calculationMode, input } = this.state
-    const { handlePress } = this.props
     if (!calculationMode) {
       handlePress(digit)
     }
 
-    this.setState({ input: input + digit })
+    setInput(input + digit)
   }
 
-  handleOperation = (operation) => {
-    const { input } = this.state
-    this.setState({
-      input: `${input} ${operation} `,
-      calculationMode: true,
-    })
+  const handleOperation = (operation) => {
+    setInput(`${input} ${operation} `)
+    setCalculationMode(true)
   }
 
-  handleClear = () => {
-    this.setState({ input: "" })
-    this.props.setAmount("0")
+  const handleClear = () => {
+    setInput("")
+    setAmount("0")
   }
 
-  calculate = () => {
-    const { input } = this.state
-    this.setState({
-      input: `${input} = ${eval(input)}`,
-      calculationMode: false,
-    })
-    this.props.setAmount(eval(input).toString())
+  const calculate = () => {
+    setInput(`${input} = ${eval(input)}`)
+    setCalculationMode(false)
+
+    setAmount(eval(input).toString())
   }
 
-  render() {
-    const { calculationMode, input } = this.state
-    const { handleSubmit } = this.props
-    const darkMode = this.context === "dark"
+  return (
+    <View style={[styles.wrap, darkMode && styles.wrapDark]}>
 
-    return (
-      <View style={[styles.wrap, darkMode && styles.wrapDark]}>
+      <View style={{ alignItems: "flex-end", padding: 5 }}>
+        <Text>{input}</Text>
+      </View>
 
-        <View style={{ alignItems: "flex-end", padding: 5 }}>
-          <Text>{input}</Text>
+      <View style={{ flexDirection: "row" }}>
+        <View style={{ flex: 1 }}>
+          <View style={styles.row}>
+
+            <Digit digit="1" handlePress={() => handleDigitPress("1")} />
+            <Digit digit="2" handlePress={() => handleDigitPress("2")} />
+            <Digit digit="3" handlePress={() => handleDigitPress("3")} />
+
+          </View>
+
+          <View style={styles.row}>
+            <Digit digit="4" handlePress={() => handleDigitPress("4")} />
+            <Digit digit="5" handlePress={() => handleDigitPress("5")} />
+            <Digit digit="6" handlePress={() => handleDigitPress("6")} />
+          </View>
+
+          <View style={styles.row}>
+            <Digit digit="7" handlePress={() => handleDigitPress("7")} />
+            <Digit digit="8" handlePress={() => handleDigitPress("8")} />
+            <Digit digit="9" handlePress={() => handleDigitPress("9")} />
+          </View>
+
+          <View style={styles.row}>
+            <Digit digit="," handlePress={() => handleDigitPress(".")} />
+            <Digit digit="0" handlePress={() => handleDigitPress("0")} />
+            <Digit digit="" handlePress={() => {}} />
+          </View>
+
         </View>
 
-        <View style={{ flexDirection: "row" }}>
-          <View style={{ flex: 1 }}>
-            <View style={styles.row}>
+        <View>
+          <Digit digit="+" handlePress={() => handleOperation("+")} small />
+          <Digit digit="-" handlePress={() => handleOperation("-")} small />
+          <Digit digit="x" handlePress={() => handleOperation("*")} small />
+          <Digit digit="/" handlePress={() => handleOperation("/")} small />
+        </View>
 
-              <Digit digit="1" handlePress={() => this.handlePress("1")} />
-              <Digit digit="2" handlePress={() => this.handlePress("2")} />
-              <Digit digit="3" handlePress={() => this.handlePress("3")} />
+        <View>
+          <Digit digit="C" handlePress={() => handleClear()} small />
+          <Digit digit="DEL" handlePress={() => del()} small />
 
-            </View>
-
-            <View style={styles.row}>
-              <Digit digit="4" handlePress={() => this.handlePress("4")} />
-              <Digit digit="5" handlePress={() => this.handlePress("5")} />
-              <Digit digit="6" handlePress={() => this.handlePress("6")} />
-            </View>
-
-            <View style={styles.row}>
-              <Digit digit="7" handlePress={() => this.handlePress("7")} />
-              <Digit digit="8" handlePress={() => this.handlePress("8")} />
-              <Digit digit="9" handlePress={() => this.handlePress("9")} />
-            </View>
-
-            <View style={styles.row}>
-              <Digit digit="," handlePress={() => this.handlePress(".")} />
-              <Digit digit="0" handlePress={() => this.handlePress("0")} />
-              <Digit digit="" handlePress={() => {}} />
-            </View>
-
-          </View>
-
-          <View>
-            <Digit digit="+" handlePress={() => this.handleOperation("+")} small />
-            <Digit digit="-" handlePress={() => this.handleOperation("-")} small />
-            <Digit digit="x" handlePress={() => this.handleOperation("*")} small />
-            <Digit digit="/" handlePress={() => this.handleOperation("/")} small />
-          </View>
-
-          <View>
-            <Digit digit="C" handlePress={() => this.handleClear()} small />
-            <Digit digit="DEL" handlePress={() => this.props.delete()} small />
-
-            <TouchableOpacity
-              style={[styles.digit, !calculationMode && { backgroundColor: palette.blue }]}
-              onPress={() => (calculationMode ? this.calculate() : handleSubmit())}>
-              <Text style={{ color: !calculationMode ? "white" : "black" }}>
-                { calculationMode ? "=" : "OK"}
-              </Text>
-            </TouchableOpacity>
-          </View>
-
+          <TouchableOpacity
+            style={[styles.digit, !calculationMode && { backgroundColor: palette.blue }]}
+            onPress={() => (calculationMode ? calculate() : handleSubmit())}>
+            <Text style={{ color: !calculationMode ? "white" : "black" }}>
+              { calculationMode ? "=" : "OK"}
+            </Text>
+          </TouchableOpacity>
         </View>
 
       </View>
-    )
-  }
+
+    </View>
+  )
+
 }
