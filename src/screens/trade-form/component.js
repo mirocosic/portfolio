@@ -119,20 +119,27 @@ class TradeForm extends Component {
       <TouchableWithoutFeedback onPress={() => this.blurInput()}>
         <Screen style={{ paddingLeft: 0, paddingRight: 0 }}>
           <Header title="Trade Form" backBtn />
-          <Copy>Amount: </Copy>
-          <Copy>{trade.amount}</Copy>
 
-          <TouchableOpacity
-            style={[styles.selectBox, darkMode && styles.selectBoxDark]}
-            onPress={() => this.assetModal.current.open()}>
-            {this.renderAsset(get(trade, "assetId"))}
-          </TouchableOpacity>
+          <View style={styles.inlineStart}>
+            <Copy>Amount: </Copy>
+            <Copy>{trade.amount}</Copy>
+          </View>
+
+          <View style={styles.inlineStart}>
+            <Copy>Asset: </Copy>
+
+            <TouchableOpacity
+              style={[styles.selectBox, darkMode && styles.selectBoxDark]}
+              onPress={() => this.assetModal.current.open()}>
+              {this.renderAsset(get(trade, "assetId"))}
+            </TouchableOpacity>
+          </View>
 
           <CustomKeyboard
             handlePress={(value) => this.setState({ trade: { ...trade, ...{ amount: trade.amount + value } } })}
             handleSubmit={() => this.submitForm()}
             setAmount={(value) => this.setState({ trade: { ...trade, ...{ amount: value } } })}
-            delete={() => this.setState({
+            del={() => this.setState({
               trade: {
                 ...trade,
                 ...{ amount: trade.amount.substring(0, trade.amount.length - 1) },
