@@ -1,55 +1,34 @@
-import React, { Component } from "react"
+import React, { useState } from "react"
 import {
   View,
-  TextInput,
-  Animated,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Keyboard,
-  Switch,
   ScrollView,
+  useColorScheme,
 } from "react-native"
 
 import { get } from "lodash"
-import { Calendar } from "react-native-calendars"
 import { Modalize } from "react-native-modalize"
-import Collapsible from "react-native-collapsible"
-// import moment from "moment"
-import { DarkModeContext } from "react-native-dark-mode"
 
 import {
   Screen,
   Header,
   Copy,
   Icon,
-  // Label,
   CustomKeyboard,
-  // TransactionType,
-  // PrimaryButton,
 } from "../../components"
 
-// import { Copy, CopyBlue } from "../../components/typography"
-// import Icon from "../../components/icon"
-import { formatCurrency } from "../../utils/currency"
-import palette from "../../utils/palette"
 import styles from "./styles"
 
-class TradeForm extends Component {
-  static contextType = DarkModeContext
+const TradeForm = ({ assets, add, remove, edit, navigation }) => {
 
-  state = {
-    trade: { amount: 0 },
-    // transaction: this.props.selectedTrade,
-  }
+  const [trade, setTrade] = useState({ amount: 0 })
+  const [price, setPrice] = useState({ price: 219 })
 
-  assetModal = React.createRef()
+  const assetModal = React.createRef()
+  const darkMode = useColorScheme() === "dark"
 
-  labelsModal = React.createRef()
-
-  calendarModal = React.createRef()
-
-  renderAsset = (id) => {
-    const { assets } = this.props
+  const renderAsset = (id) => {
     const asset = assets.find((a) => id === a.id)
 
     return (
@@ -63,114 +42,99 @@ class TradeForm extends Component {
     )
   }
 
-  renderAssets = () => {
-    const { assets } = this.props
-    const { trade } = this.state
+  const renderAssets = () => assets
+    .map((a) => (
+      <TouchableOpacity
+        key={a.id}
+        onPress={() => {
+          setTrade({ ...trade, assetId: a.id })
+          assetModal.current.close()
+        }}>
+        <View style={{ flexDirection: "row", alignItems: "center", margin: 5 }}>
+          <Icon type={get(a, "icon", "")} textStyle={{ color: a.color || "blue" }} style={{ marginRight: 10 }} />
+          <Copy>{a.name}</Copy>
+        </View>
 
-    return assets
-      .map((a) => (
-        <TouchableOpacity
-          key={a.id}
-          onPress={() => {
-            this.setState({ trade: { ...trade, assetId: a.id } })
-            this.assetModal.current.close()
-          }}>
-          <View style={{ flexDirection: "row", alignItems: "center", margin: 5 }}>
-            <Icon type={get(a, "icon", "")} textStyle={{ color: a.color || "blue" }} style={{ marginRight: 10 }} />
-            <Copy>{a.name}</Copy>
-          </View>
+      </TouchableOpacity>
+    ))
 
-        </TouchableOpacity>
-      ))
+  const editTrade = () => {
+    edit(trade)
+    navigation.goBack()
   }
 
-  submitForm = () => {
-    const { add, navigation } = this.props
-    const { trade } = this.state
-
+  const submitForm = () => {
     if (trade.id) {
-      this.editTrade(trade)
+      editTrade(trade)
     } else {
       add(trade)
       navigation.goBack()
     }
   }
 
-  editTrade = (trade) => {
-    const { navigation, edit } = this.props
-
-    edit(trade)
-    navigation.goBack()
-  }
-
-  deleteTrade = (trade) => {
-    const { navigation, remove } = this.props
-
+  const deleteTrade = () => {
     remove({ id: trade.id })
     navigation.goBack()
   }
 
-  render() {
-    const { trade } = this.state
-    const { navigation } = this.props
-    const darkMode = this.context === "dark"
+  return (
+    <TouchableWithoutFeedback onPress={() => blurInput()}>
+      <Screen style={{ paddingLeft: 0, paddingRight: 0 }}>
+        <Header title="Trade Form" backBtn />
 
-    return (
-      <TouchableWithoutFeedback onPress={() => this.blurInput()}>
-        <Screen style={{ paddingLeft: 0, paddingRight: 0 }}>
-          <Header title="Trade Form" backBtn />
+        <View style={styles.inlineStart}>
+          <Copy>Amount: </Copy>
+          <Copy>{trade.amount}</Copy>
+        </View>
 
-          <View style={styles.inlineStart}>
-            <Copy>Amount: </Copy>
-            <Copy>{trade.amount}</Copy>
-          </View>
+        <View style={styles.inlineStart}>
+          <Copy>Price: </Copy>
+          <Copy>{price.price}</Copy>
+        </View>
 
-          <View style={styles.inlineStart}>
-            <Copy>Asset: </Copy>
+        <View style={styles.inlineStart}>
+          <Copy>Asset: </Copy>
 
-            <TouchableOpacity
-              style={[styles.selectBox, darkMode && styles.selectBoxDark]}
-              onPress={() => this.assetModal.current.open()}>
-              {this.renderAsset(get(trade, "assetId"))}
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={[styles.selectBox, darkMode && styles.selectBoxDark]}
+            onPress={() => assetModal.current.open()}>
+            {renderAsset(get(trade, "assetId"))}
+          </TouchableOpacity>
+        </View>
 
-          <CustomKeyboard
-            handlePress={(value) => this.setState({ trade: { ...trade, ...{ amount: trade.amount + value } } })}
-            handleSubmit={() => this.submitForm()}
-            setAmount={(value) => this.setState({ trade: { ...trade, ...{ amount: value } } })}
-            del={() => this.setState({
-              trade: {
-                ...trade,
-                ...{ amount: trade.amount.substring(0, trade.amount.length - 1) },
-              },
-            })}
+        <CustomKeyboard
+          handlePress={(value) => setTrade({ ...trade, ...{ amount: trade.amount + value } })}
+          handleSubmit={() => submitForm()}
+          setAmount={(value) => setTrade({ ...trade, ...{ amount: value } })}
+          del={() => setTrade({
+            ...trade,
+            ...{ amount: trade.amount.substring(0, trade.amount.length - 1) },
+          })}
           />
 
-          <Modalize
-            adjustToContentHeight
-            modalStyle={[styles.modal, darkMode && styles.modalDark]}
-            ref={this.assetModal}>
-            <ScrollView style={{ minHeight: 200, maxHeight: 400, padding: 10 }}>
-              {this.renderAssets()}
-              <TouchableOpacity
-                style={{ position: "absolute", right: 10 }}
-                onPress={() => this.assetModal.current.close()}>
-                <Icon type="times" textStyle={{ color: "teal" }} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.inline, { justifyContent: "flex-start", paddingLeft: 5 }]}
-                onPress={() => navigation.navigate("AssetEdit", {})}>
-                <Icon type="plus" textStyle={{ color: "teal" }} />
-                <Copy style={{ fontSize: 14 }}>Add new asset</Copy>
-              </TouchableOpacity>
-            </ScrollView>
-          </Modalize>
+        <Modalize
+          adjustToContentHeight
+          modalStyle={[styles.modal, darkMode && styles.modalDark]}
+          ref={assetModal}>
+          <ScrollView style={{ minHeight: 200, maxHeight: 400, padding: 10 }}>
+            {renderAssets()}
+            <TouchableOpacity
+              style={{ position: "absolute", right: 10 }}
+              onPress={() => assetModal.current.close()}>
+              <Icon type="times" textStyle={{ color: "teal" }} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.inline, { justifyContent: "flex-start", paddingLeft: 5 }]}
+              onPress={() => navigation.navigate("AssetEdit", {})}>
+              <Icon type="plus" textStyle={{ color: "teal" }} />
+              <Copy style={{ fontSize: 14 }}>Add new asset</Copy>
+            </TouchableOpacity>
+          </ScrollView>
+        </Modalize>
 
-        </Screen>
-      </TouchableWithoutFeedback>
-    )
-  }
+      </Screen>
+    </TouchableWithoutFeedback>
+  )
 }
 
 export default TradeForm
