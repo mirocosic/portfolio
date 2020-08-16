@@ -41,14 +41,14 @@ export default () => (
       },
     }}>
     <Tab.Screen
-      name={__("Dashboard")}
-      component={Dashboard}
+      name={__("Trades")}
+      component={Trades}
       options={{
         tabBarIcon: ({ color }) => (
           <Icon
             style={{ backgroundColor: useDarkMode() ? palette.darkGray : "white" }}
             textStyle={{ fontSize: 26, color }}
-            type="tasks"
+            type="exchangeAlt"
           />
         ),
       }}
@@ -74,19 +74,6 @@ export default () => (
       }}
     />
 
-    <Tab.Screen
-      name={__("Trades")}
-      component={Trades}
-      options={{
-        tabBarIcon: ({ color }) => (
-          <Icon
-            style={{ backgroundColor: useDarkMode() ? palette.darkGray : "white" }}
-            textStyle={{ fontSize: 26, color }}
-            type="exchangeAlt"
-          />
-        ),
-      }}
-    />
     <Tab.Screen
       name={__("Settings")}
       component={Settings}
