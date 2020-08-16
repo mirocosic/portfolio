@@ -10,7 +10,18 @@ const icons = {
   category,
 }
 
-const Icon = ({ type, textStyle, style, icon }) => (
+const resolveType = (type) => {
+  if (type === "brand") {
+    return "FontAwesome5Brands-Regular"
+  }
+  if (type === "pro") {
+    return "FontAwesome5Pro-Solid"
+  }
+  return "FontAwesome5FreeSolid"
+
+}
+
+const Icon = ({ type, textStyle, style, icon, faType }) => (
   <View
     style={[
       {
@@ -26,7 +37,7 @@ const Icon = ({ type, textStyle, style, icon }) => (
     {type ? (
       <FontAwesome
         style={[{ fontSize: 16, color: "white" }, textStyle]}
-        type="FontAwesome5FreeSolid">
+        type={resolveType(faType)}>
         {Icons[type]}
       </FontAwesome>
     ) : (
