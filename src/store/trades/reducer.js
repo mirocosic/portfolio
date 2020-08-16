@@ -22,6 +22,12 @@ const trades = (state = initialState, action) => {
         ],
       }
 
+    case "SELECT_TRADE":
+      return {
+        ...state,
+        selectedTrade: action.trade,
+      }
+
     default:
       return state
   }

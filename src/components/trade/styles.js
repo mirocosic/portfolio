@@ -9,7 +9,10 @@ export default StyleSheet.create({
     padding: 10,
     paddingTop: 5,
     paddingBottom: 5,
+    paddingLeft: 0,
     // backgroundColor: "white",
+    borderColor: "gray",
+    borderBottomWidth: 1,
   },
 
   containerDark: { backgroundColor: palette.dark },

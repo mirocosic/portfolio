@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
   View,
   TouchableOpacity,
@@ -16,13 +16,14 @@ import {
   Copy,
   Icon,
   CustomKeyboard,
+  PrimaryButton,
 } from "../../components"
 
 import styles from "./styles"
 
-const TradeForm = ({ assets, add, remove, edit, navigation }) => {
+const TradeForm = ({ assets, add, remove, edit, navigation, route }) => {
 
-  const [trade, setTrade] = useState({ amount: 0 })
+  const [trade, setTrade] = useState(route.params.trade || {})
   const [price, setPrice] = useState({ price: 219 })
 
   const assetModal = React.createRef()
@@ -35,6 +36,7 @@ const TradeForm = ({ assets, add, remove, edit, navigation }) => {
       <View style={{ flexDirection: "row", alignItems: "center", width: 170 }}>
         <Icon
           type={get(asset, "icon", "")}
+          faType="brand"
           textStyle={{ color: get(asset, "color", "blue") }}
         />
         <Copy>{asset && asset.name}</Copy>
@@ -51,8 +53,8 @@ const TradeForm = ({ assets, add, remove, edit, navigation }) => {
           assetModal.current.close()
         }}>
         <View style={{ flexDirection: "row", alignItems: "center", margin: 5 }}>
-          <Icon type={get(a, "icon", "")} textStyle={{ color: a.color || "blue" }} style={{ marginRight: 10 }} />
-          <Copy>{a.name}</Copy>
+          <Icon type={get(a, "icon", "")} textStyle={{ color: a.color || "gold" }} style={{ marginRight: 10 }} faType="brand" />
+          <Copy>{`${a.name} (${a.ticker})`}</Copy>
         </View>
 
       </TouchableOpacity>
@@ -80,7 +82,12 @@ const TradeForm = ({ assets, add, remove, edit, navigation }) => {
   return (
     <TouchableWithoutFeedback onPress={() => blurInput()}>
       <Screen style={{ paddingLeft: 0, paddingRight: 0 }}>
-        <Header title="Trade Form" backBtn />
+        <Header
+          title="Trade Form"
+          backBtn
+          actionBtn={trade.id && <Icon type="trash-alt" />}
+          actionBtnPress={() => deleteTrade(trade)}
+        />
 
         <View style={styles.inlineStart}>
           <Copy>Amount: </Copy>
@@ -93,6 +100,11 @@ const TradeForm = ({ assets, add, remove, edit, navigation }) => {
         </View>
 
         <View style={styles.inlineStart}>
+          <Copy>Target Price: </Copy>
+          <Copy>{trade.targetPrice}</Copy>
+        </View>
+
+        <View style={styles.inlineStart}>
           <Copy>Asset: </Copy>
 
           <TouchableOpacity
@@ -101,6 +113,10 @@ const TradeForm = ({ assets, add, remove, edit, navigation }) => {
             {renderAsset(get(trade, "assetId"))}
           </TouchableOpacity>
         </View>
+
+        { trade.id
+          && trade.status === "open"
+          && <PrimaryButton label="Close Trade" onPress={() => {}} />}
 
         <CustomKeyboard
           handlePress={(value) => setTrade({ ...trade, ...{ amount: trade.amount + value } })}
