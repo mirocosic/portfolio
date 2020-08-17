@@ -9,10 +9,8 @@ export default connect(
 
   (dispatch) => ({
     add: (trade) => dispatch({ type: "ADD_TRADE", trade }),
-
-    // edit: (transaction) => dispatch({ type: "EDIT_TRANSACTION", transaction }),
-    //
-    // remove: (transaction) => dispatch({ type: "DELETE_TRANSACTION", transaction }),
+    edit: (trade) => dispatch({ type: "EDIT_TRADE", trade }),
+    remove: (trade) => dispatch({ type: "DELETE_TRADE", trade }),
     // transfer: (transaction) => dispatch({ type: "TRANSFER_TRANSACTION", transaction }),
     //
     // setTransferMode: (value) => dispatch({ type: "SET_TRANSFER_MODE", value }),

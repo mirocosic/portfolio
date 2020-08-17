@@ -22,6 +22,22 @@ const trades = (state = initialState, action) => {
         ],
       }
 
+    case "EDIT_TRADE":
+      return {
+        ...state,
+        entries: state.entries.map((item) => {
+          if (item.id !== trade.id) { return item }
+
+          return trade
+        }),
+      }
+
+    case "DELETE_TRADE":
+      return {
+        ...state,
+        entries: state.entries.filter((item) => item.id !== action.trade.id),
+      }
+
     case "SELECT_TRADE":
       return {
         ...state,

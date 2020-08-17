@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react"
 import {
   View,
+  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   ScrollView,
   useColorScheme,
+  Keyboard,
 } from "react-native"
 
 import { get } from "lodash"
@@ -91,17 +93,41 @@ const TradeForm = ({ assets, add, remove, edit, navigation, route }) => {
 
         <View style={styles.inlineStart}>
           <Copy>Amount: </Copy>
-          <Copy>{trade.amount}</Copy>
+          <TextInput
+            onChangeText={(value) => setTrade({ ...trade, ...{ amount: value } })}
+            value={trade.amount}
+            placeholder="enter amount..."
+            style={[styles.textInput, darkMode && styles.textInputDark, { marginLeft: 0, padding: 10, height: 40, width: "100%" }]}
+            keyboardAppearance={darkMode ? "dark" : "light"}
+            keyboardType="numeric"
+            returnKeyType="done"
+          />
         </View>
 
         <View style={styles.inlineStart}>
           <Copy>Price: </Copy>
-          <Copy>{price.price}</Copy>
+          <TextInput
+            onChangeText={(value) => setTrade({ ...trade, ...{ price: value } })}
+            value={trade.price}
+            placeholder="enter price..."
+            style={[styles.textInput, darkMode && styles.textInputDark, { marginLeft: 0, padding: 10, height: 40, width: "100%" }]}
+            keyboardAppearance={darkMode ? "dark" : "light"}
+            keyboardType="numeric"
+            returnKeyType="done"
+          />
         </View>
 
         <View style={styles.inlineStart}>
           <Copy>Target Price: </Copy>
-          <Copy>{trade.targetPrice}</Copy>
+          <TextInput
+            onChangeText={(value) => setTrade({ ...trade, ...{ targetPrice: value } })}
+            value={trade.targetPrice}
+            placeholder="enter target..."
+            style={[styles.textInput, darkMode && styles.textInputDark, { marginLeft: 0, padding: 10, height: 40, width: "100%" }]}
+            keyboardAppearance={darkMode ? "dark" : "light"}
+            keyboardType="numeric"
+            returnKeyType="done"
+          />
         </View>
 
         <View style={styles.inlineStart}>
@@ -126,7 +152,7 @@ const TradeForm = ({ assets, add, remove, edit, navigation, route }) => {
             ...trade,
             ...{ amount: trade.amount.substring(0, trade.amount.length - 1) },
           })}
-          />
+        />
 
         <Modalize
           adjustToContentHeight
