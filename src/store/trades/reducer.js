@@ -32,6 +32,16 @@ const trades = (state = initialState, action) => {
         }),
       }
 
+    case "CLOSE_TRADE":
+      return {
+        ...state,
+        entries: state.entries.map((item) => {
+          if (item.id !== trade.id) { return item }
+
+          return { ...trade, status: "closed" }
+        }),
+      }
+
     case "DELETE_TRADE":
       return {
         ...state,

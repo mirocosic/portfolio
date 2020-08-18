@@ -1,5 +1,6 @@
-import React, { Component } from "react"
+import React from "react"
 import { View, TouchableOpacity, useColorScheme } from "react-native"
+import moment from "moment"
 
 import { Copy } from "../typography"
 import { formatCurrency } from "../../utils/currency"
@@ -26,6 +27,7 @@ const Trade = ({ asset, trade, navigation, selectTrade }) => {
           <Copy>Buy Price: {formatCurrency(trade.price)}</Copy>
           <Copy>Target Price: {formatCurrency(trade.targetPrice)}</Copy>
           <Copy>Amount: {trade.amount}</Copy>
+          <Copy style={{ fontSize: 12 }}>{moment(trade.timestamp).format("D.MM.YYYY. HH:mm")}</Copy>
           { trade.note && <Copy>Note: { trade.note }</Copy> }
         </View>
       </View>

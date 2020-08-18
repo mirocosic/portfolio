@@ -1,34 +1,21 @@
-import React, { useState, useEffect } from "react"
-import {
-  View,
-  TextInput,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  ScrollView,
-  useColorScheme,
-  Keyboard,
-} from "react-native"
-
+import React, { useState } from "react"
+import { View, TextInput, TouchableOpacity, TouchableWithoutFeedback, ScrollView, useColorScheme } from "react-native"
 import { get } from "lodash"
+import moment from "moment"
 import { Modalize } from "react-native-modalize"
+import { Calendar } from "react-native-calendars"
 
-import {
-  Screen,
-  Header,
-  Copy,
-  Icon,
-  CustomKeyboard,
-  PrimaryButton,
-} from "../../components"
-
+import { Screen, Header, Copy, Icon, CustomKeyboard, PrimaryButton } from "../../components"
+import palette from "../../utils/palette"
 import styles from "./styles"
 
-const TradeForm = ({ assets, add, remove, edit, navigation, route }) => {
+const TradeForm = ({ assets, add, remove, edit, close, navigation, route }) => {
 
-  const [trade, setTrade] = useState(route.params.trade || {})
-  const [price, setPrice] = useState({ price: 219 })
+  const newTrade = { amount: "0", status: "open", assetId: 1 }
+  const [trade, setTrade] = useState(route.params.trade || newTrade)
 
   const assetModal = React.createRef()
+  const calendarModal = React.createRef()
   const darkMode = useColorScheme() === "dark"
 
   const renderAsset = (id) => {
@@ -78,6 +65,11 @@ const TradeForm = ({ assets, add, remove, edit, navigation, route }) => {
 
   const deleteTrade = () => {
     remove({ id: trade.id })
+    navigation.goBack()
+  }
+
+  const closeTrade = () => {
+    close(trade)
     navigation.goBack()
   }
 
@@ -140,9 +132,20 @@ const TradeForm = ({ assets, add, remove, edit, navigation, route }) => {
           </TouchableOpacity>
         </View>
 
+        <TouchableOpacity
+          style={{ flexDirection: "row", alignItems: "center" }}
+          onPress={() => calendarModal.current.open()}>
+          <Icon
+            type="calendar-alt"
+            style={{ paddingLeft: 0, width: 20 }}
+            textStyle={{ color: "teal", marginLeft: 0, paddingLeft: 0, width: 20 }}
+            />
+          <Copy>{moment(trade.timestamp).format("MMM Do YYYY")}</Copy>
+        </TouchableOpacity>
+
         { trade.id
           && trade.status === "open"
-          && <PrimaryButton label="Close Trade" onPress={() => {}} />}
+          && <PrimaryButton label="Close Trade" onPress={() => closeTrade(trade)} />}
 
         <CustomKeyboard
           handlePress={(value) => setTrade({ ...trade, ...{ amount: trade.amount + value } })}
@@ -171,6 +174,29 @@ const TradeForm = ({ assets, add, remove, edit, navigation, route }) => {
               <Icon type="plus" textStyle={{ color: "teal" }} />
               <Copy style={{ fontSize: 14 }}>Add new asset</Copy>
             </TouchableOpacity>
+          </ScrollView>
+        </Modalize>
+
+        <Modalize
+          adjustToContentHeight
+          modalStyle={[styles.modal, darkMode && styles.modalDark]}
+          scrollViewProps={{ scrollEnabled: false }}
+          ref={calendarModal}>
+          <ScrollView style={{ minHeight: 400, maxHeight: 400, padding: 10 }}>
+
+            <Calendar
+              theme={{
+                monthTextColor: darkMode ? palette.blue : palette.darkGray,
+                dayTextColor: darkMode ? "white" : "black",
+                todayTextColor: "teal",
+                calendarBackground: darkMode ? palette.darkGray : "white",
+              }}
+              onDayPress={(day) => {
+                setTrade({ ...trade, ...{ timestamp: day.timestamp } })
+                calendarModal.current.close()
+              }}
+            />
+
           </ScrollView>
         </Modalize>
 
