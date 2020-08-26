@@ -73,6 +73,8 @@ const TradeForm = ({ assets, add, remove, edit, close, navigation, route }) => {
     navigation.goBack()
   }
 
+  console.log(trade)
+
   return (
     <TouchableWithoutFeedback onPress={() => blurInput()}>
       <Screen style={{ paddingLeft: 0, paddingRight: 0 }}>
@@ -91,7 +93,7 @@ const TradeForm = ({ assets, add, remove, edit, close, navigation, route }) => {
             placeholder="enter amount..."
             style={[styles.textInput, darkMode && styles.textInputDark, { marginLeft: 0, padding: 10, height: 40, width: "100%" }]}
             keyboardAppearance={darkMode ? "dark" : "light"}
-            keyboardType="numeric"
+            keyboardType="number-pad"
             returnKeyType="done"
           />
         </View>
@@ -99,8 +101,8 @@ const TradeForm = ({ assets, add, remove, edit, close, navigation, route }) => {
         <View style={styles.inlineStart}>
           <Copy>Price: </Copy>
           <TextInput
-            onChangeText={(value) => setTrade({ ...trade, ...{ price: value } })}
-            value={trade.price}
+            onChangeText={(value) => setTrade({ ...trade, ...{ price: parseFloat(value) * 100 } })}
+            value={trade.price / 100}
             placeholder="enter price..."
             style={[styles.textInput, darkMode && styles.textInputDark, { marginLeft: 0, padding: 10, height: 40, width: "100%" }]}
             keyboardAppearance={darkMode ? "dark" : "light"}
@@ -112,8 +114,8 @@ const TradeForm = ({ assets, add, remove, edit, close, navigation, route }) => {
         <View style={styles.inlineStart}>
           <Copy>Target Price: </Copy>
           <TextInput
-            onChangeText={(value) => setTrade({ ...trade, ...{ targetPrice: value } })}
-            value={trade.targetPrice}
+            onChangeText={(value) => setTrade({ ...trade, ...{ targetPrice: value * 100 } })}
+            value={trade.targetPrice / 100}
             placeholder="enter target..."
             style={[styles.textInput, darkMode && styles.textInputDark, { marginLeft: 0, padding: 10, height: 40, width: "100%" }]}
             keyboardAppearance={darkMode ? "dark" : "light"}
